@@ -1,0 +1,345 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>CODE FUNK</title>
+  <script src="https://pagecdn.io/lib/ace/1.4.11/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <!-- Bootstrap core CSS -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+  <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap.js"></script>
+
+  <!-- Custom styles for this template -->
+  <style>
+@import url('http://getbootstrap.com/2.3.2/assets/css/bootstrap.css');
+.container {
+   margin-top: 10px;
+}
+.nav-tabs > li {
+   position:relative;
+}
+.nav-tabs > li > a {
+   display:inline-block;
+}
+.nav-tabs > li > span {
+   display:none;
+   cursor:pointer;
+   position:absolute;
+   right: 6px;
+   top: 8px;
+   color: red;
+}
+.nav-tabs > li:hover > span {
+   display: inline-block;
+}  
+  
+  body {
+    overflow-x: hidden;
+  }
+  #editor { 
+        position: absolute;
+        top: 6.2%;
+        right: 0%;
+        bottom: 0%;
+        left:1.1%;
+        height: 42rem;
+     
+        
+        
+        
+    }
+    div.outfields{
+    	margin-top:42rem;
+    
+    }
+    div.scroll { 
+                margin:4px,4px; 
+                padding:10px; 
+                background-color: rgb(216, 214, 214); 
+                width: 240px; 
+                height: 300px; 
+                overflow-x: hidden; 
+                overflow-x: auto; 
+                text-align:justify;
+                border: 2rem;
+                font-family: system-ui;
+    }
+  #sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+  }
+  
+  #sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+  }
+  
+  #sidebar-wrapper .list-group {
+    width: 15rem;
+  }
+  
+  #page-content-wrapper {
+    min-width: 100vw;
+  }
+  
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+  }
+  
+  @media (min-width: 768px) {
+    #sidebar-wrapper {
+      margin-left: 0;
+    }
+  
+    #page-content-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+  
+    #wrapper.toggled #sidebar-wrapper {
+      margin-left: -15rem;
+    }
+  }
+  
+  /* ---------------------------------------- */
+ 
+  
+  
+  </style>
+
+</head>
+
+<body>
+    <form id="cat_select">{% csrf_token %}
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">CODE FUNK</div>
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action bg-light">Do it Coding</a>
+        <!-- <a href="#" class="list-group-item list-group-item-action bg-light">Chat With Team</a>
+        <div class="scroll" id="div_data">  
+        </div> 
+        <textarea id="chatmessage" style="width: 240px;"></textarea>
+        <button type="button" style="margin-bottom: 2rem;font-size: large;" class="btn btn-outline-dark" id="sendmessage">Send</button>
+      
+        <a href="#" class="list-group-item list-group-item-action bg-light">VideoChat With Team</a> -->
+        <!-- <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a> -->
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+        <select class="custom-select" id="language" name="language" style="margin-left:10px;width: 10rem;" onchange="clearscreen()">
+            <option selected>Language</option>
+            <option value="Java">Java</option>
+          <option value="Python">Python</option>
+          <option value="C">C</option>
+          <option value="CPP">CPP</option>
+          </select>
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li> -->
+            <!-- <li class="nav-item dropdown"> -->
+              <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a> -->
+              <!-- <select class="custom-select" id="language" name="language" onchange="clearscreen()">
+                <option selected>Language</option>
+                <option value="Java">Java</option>
+              <option value="Python">Python</option>
+              <option value="C">C</option>
+              <option value="CPP">CPP</option>
+              </select> -->
+            <!-- </li>
+          </ul>
+        </div> --> 
+      </nav>
+      <!-- <div class="container-fluid"> -->
+        <div class="container">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#contact_01" data-toggle="tab">Joe Smith</a><span>x</span>
+                </li>
+                <li><a href="#contact_02" data-toggle="tab">Molly Lewis</a>  <span> x </span> 
+                </li>
+                <li><a href="#" class="add-contact">+ Add Contact</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="contact_01"><div class="row">
+                    <div class="col-sm-12"><div id="editor">
+                    </div></div></div></div>
+                <div class="tab-pane active" id="contact_02"><div class="row">
+                    <div class="col-sm-12"><div id="editor">
+                    </div></div></div></div>
+                
+            </div>
+        </div>
+        
+            
+            <div class="outfields">
+           </div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+         
+               <button class="btn btn-success btn-lg" style="font-weight: bold;"  type="submit" id="cat_submit">
+            Execute
+          </button>
+          <div class="container">
+          <div class="row">
+           <div class="col">
+           <h3 >Input:</h3>
+        <textarea style="width: 20rem;height: 5rem;" id="takeinput"></textarea></div>
+         <div class="col">
+         <h3 >Output:</h3>
+         <textarea style="width: 20rem;height: 5rem;" id="show"></textarea>
+      </div></div>
+    </div>
+      </nav>
+    </form>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+   <script>
+         $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+    var x1;
+var editor = ace.edit("editor");
+// editor.setTheme("ace/theme/monokai");
+editor.setTheme("ace/theme/dracula");
+
+document.getElementById('editor').style.fontSize='20px';
+document.getElementById('editor').style.font='22px';
+editor.setBehavioursEnabled(false);
+editor.resize();
+
+   
+
+   $(document).on('submit','#cat_select',function(e){
+   document.getElementById('cat_submit').innerHTML=' <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+e.preventDefault();
+// x1=document.querySelector("#message").value;
+var x1=editor.getValue();
+$.ajax({
+   type:'POST',
+   url:'/showDetails/',
+   data:{
+       l2:x1,
+       l3:$('#language').val(),
+       l4:$('#takeinput').val(),
+       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+   },
+   success: function(json){
+       
+                   setTimeout(function(){
+                       
+                        document.getElementById('cat_submit').innerHTML=' <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+                        if (json.result==""){
+                                $('#show').text("No Output").show();  
+                             }
+                             else{
+                                $('#show').text(json.result).show();
+                             }
+                        
+       document.getElementById('cat_submit').innerHTML='Execute';
+       }, 500);
+       
+       x1=mess;
+
+     
+   }
+});
+});
+
+
+function clearscreen(){
+   var x=document.forms[0];
+   var v= document.getElementById('language');
+      var v1 = v.options[v.selectedIndex].innerHTML;
+    console.log(v1);
+    $.ajax({
+        type:'POST',
+        url:'/showlang/',
+        data:{
+            l3:v1,
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+        },
+        success: function(json){
+            editor.setValue("");
+            editor.setValue(json.lang);
+            if(json.prog!='C' && json.prog!='CPP' && json.prog!='Language'){
+            var k="ace/mode/"+(json.prog).toLowerCase();
+            editor.session.setMode("ace/mode/python");
+            }
+            else if(json.prog='C' || json.prog=='CPP' && json.prog!='Language'){ 
+                editor.session.setMode("ace/mode/c_cpp");
+            }
+            
+        }
+    });
+
+
+
+}
+$(".nav-tabs").on("click", "a", function (e) {
+        e.preventDefault();
+        if (!$(this).hasClass('add-contact')) {
+            $(this).tab('show');
+        }
+    })
+    .on("click", "span", function () {
+        var anchor = $(this).siblings('a');
+        $(anchor.attr('href')).remove();
+        $(this).parent().remove();
+        $(".nav-tabs li").children('a').first().click();
+    });
+
+$('.add-contact').click(function (e) {
+    e.preventDefault();
+    var id = $(".nav-tabs").children().length; //think about it ;)
+    var tabId = 'contact_' + id;
+    $(this).closest('li').before('<li><a href="#contact_' + id + '">New Tab</a> <span> x </span></li>');
+    $('.tab-content').append('<div class="tab-pane" id="' + tabId + '"><div class="row"> \
+                    <div class="col-sm-12"><div id="editor"> \
+                    </div></div></div></div>');
+   $('.nav-tabs li:nth-child(' + id + ') a').click();
+});
+</script>
+
+</body>
+
+</html>
