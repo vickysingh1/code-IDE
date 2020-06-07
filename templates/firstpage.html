@@ -105,9 +105,12 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">CODE FUNK</div>
+      <div class="sidebar-heading">CØDE FUNK</div>
       <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Do it Coding</a>
+        <div class="list-group-item list-group-item-action bg-light">
+          CØDE FUNK is online editor and compiler where you can write and run code instantly.
+           Whenever you come up with new idea, learn or teach programming, you and others can just write and run code.
+        </div>
         <!-- <a href="#" class="list-group-item list-group-item-action bg-light">Chat With Team</a>
         <div class="scroll" id="div_data">  
         </div> 
@@ -126,7 +129,7 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+        <button class="btn btn-primary" id="menu-toggle">Menu</button>
         <select class="custom-select" id="language" name="language" style="margin-left:10px;width: 10rem;" onchange="clearscreen()">
             <option selected>Language</option>
             <option value="Java">Java</option>
@@ -176,10 +179,10 @@
           <div class="row">
            <div class="col">
            <h3 >Input:</h3>
-        <textarea style="width: 20rem;height: 5rem;" id="takeinput"></textarea></div>
+        <textarea style="width: 20rem;height: 5rem; font-family: Verdana, Geneva, Tahoma, sans-serif;" id="takeinput"></textarea></div>
          <div class="col">
          <h3 >Output:</h3>
-         <textarea style="width: 20rem;height: 5rem;" id="show"></textarea>
+         <textarea style="width: 20rem;height: 5rem; font-family: Verdana, Geneva, Tahoma, sans-serif;" id="show"></textarea>
       </div></div>
     </div>
       </nav>
@@ -210,6 +213,7 @@ editor.setOptions({
    document.getElementById('cat_submit').innerHTML=' <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
    localStorage.setItem("code",editor.getValue())
 localStorage.setItem("language",$('#language').val())
+localStorage.setItem($('#language').val(),editor.getValue())
 
 
 e.preventDefault();
@@ -263,7 +267,14 @@ function clearscreen(){
         },
         success: function(json){
             editor.setValue("");
-            editor.setValue(json.lang);
+            // editor.setValue(json.lang);
+            var datas=localStorage.getItem($("#language").val())
+            if(datas==null){
+              editor.setValue(json.lang);
+            }
+            else{
+              editor.setValue(datas);
+            }
             if(json.prog!='C' && json.prog!='CPP' && json.prog!='Language'){
             var k="ace/mode/"+(json.prog).toLowerCase();
             editor.session.setMode(k);
@@ -278,6 +289,7 @@ function clearscreen(){
 
 }
 function startnew(){
+  //console.log(localStorage)
     editor.setValue(localStorage.getItem("code"))
     $("#language").val(localStorage.getItem("language"));
     var k=(localStorage.getItem("language")).toLowerCase();
