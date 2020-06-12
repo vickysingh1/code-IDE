@@ -3,11 +3,12 @@ from django.http import JsonResponse
 import subprocess
 from django.http.response import HttpResponse
 import json
+import time
 from django.views.decorators.csrf import csrf_exempt
 def index(request):
-    return render(request,'firstpage.html')
+    return render(request,'../templates/firstpage.html')
     
-
+@csrf_exempt
 def details(request):
     
     #print(request.POST)
@@ -32,12 +33,9 @@ def details(request):
             fh=open('C1.c','w+')
             fh.write(text)
             fh.close()
-            subprocess.run('cat input_file | make C1 > output1.txt 2>&1 ',shell=True,stdout=file_)
-            subprocess.run('cat input_file | ./C1 > output.txt 2>&1  ',shell=True,stdout=file_)
+            subprocess.run('cat input_file | make C1 >& output1.txt',shell=True,stdout=file_)
+            subprocess.run('cat input_file | ./C1 >& output.txt',shell=True,stdout=file_)
             file_.close()
-            fhd=open('input_file','r+')
-            fhd.truncate(0)
-            fhd.close()
             fh=open('output1.txt','r+')
             k1=fh.read()
             fh.truncate(0)
@@ -58,12 +56,9 @@ def details(request):
             fh=open('Cpp1.cpp','w+')
             fh.write(text)
             fh.close()
-            subprocess.run('cat input_file | make Cpp1 > output1.txt 2>&1 ',shell=True,stdout=file_)
-            subprocess.run('cat input_file | ./Cpp1 > output.txt 2>&1 ',shell=True,stdout=file_)
+            subprocess.run('cat input_file | make Cpp1 >& output1.txt',shell=True,stdout=file_)
+            subprocess.run('cat input_file | ./Cpp1 >& output.txt',shell=True,stdout=file_)
             file_.close()
-            fhd=open('input_file','r+')
-            fhd.truncate(0)
-            fhd.close()
             fh=open('output1.txt','r+')
             k1=fh.read()
             fh.truncate(0)
@@ -83,18 +78,20 @@ def details(request):
         fh=open('Java1.java','w+')
         fh.write(text)
         fh.close()
-        subprocess.run('cat input_file | javac Java1.java > output1.txt 2>&1 ',shell=True,stdout=file_)
-        subprocess.run('cat input_file | java Java1 > output.txt 2>&1 ',shell=True,stdout=file_)
+        subprocess.run('cat input_file | javac Java1.java >& output1.txt',shell=True,stdout=file_)
+        subprocess.run('cat input_file | java Java1 >& output.txt',shell=True,stdout=file_)
         file_.close()
         fhd=open('input_file','r+')
         fhd.truncate(0)
         fhd.close()
         fh=open('output1.txt','r+')
         k1=fh.read()
+        print(k1)
         fh.truncate(0)
         fh.close()
         fh=open('output.txt','r+')
         k=fh.read()
+        print(k)
         fh.truncate(0)
         fh.close()
         # print(len(k1))
@@ -102,31 +99,46 @@ def details(request):
             res={'result':k1}
         else:
             res = {'result':k}
+        
         return JsonResponse(res)
         
 
+    # elif text1=="Python":
+    #     fh=open('p1.py','w+')
+    #     fh.write(text)
+    #     fh.close()
+    #     subprocess.run('cat input_file | python3 p1.py >& output.txt',shell=True,stdout=file_)
+    #     file_.close()
+    #     fh=open('output.txt','r+')
+    #     k=fh.read()
+    #     fh.truncate(0)
+    #     fh.close()
+    #     res = {'result':k}
+    #     return HttpResponse(json.dumps(res), content_type="application/json")
     elif text1=="Python":
         fh=open('p1.py','w+')
         fh.write(text)
         fh.close()
-        subprocess.run('cat input_file | python3 p1.py > output.txt 2>&1 ',shell=True,stdout=file_)
+        command = 'cat input_file | python3 p1.py >& output.txt'
+        subprocess.run(command,stdout=subprocess.PIPE,shell=True)
+        # fh22=open('/home/vickysingh/code-funk/output.txt','w+')
+        # fh22.write(proc)
+        # fh22.close()
         file_.close()
-        fhd=open('input_file','r+')
-        fhd.truncate(0)
-        fhd.close()
+        time.sleep(4)
         fh=open('output.txt','r+')
         k=fh.read()
-        fh.truncate(0)
         fh.close()
+
         res = {'result':k}
         return HttpResponse(json.dumps(res), content_type="application/json")
 
 
 
-
+@csrf_exempt
 def mylang(request):
     lang=request.POST.get('l3')
-   # print(lang)
+    print(lang,end="\n")
     if lang=='Java':
         lang1='public class Java1{\n public static void main(String[] args){\n \tSystem.out.println("Code Funk in Java");\n}\n}'
         res={'lang':lang1,'prog':lang}
