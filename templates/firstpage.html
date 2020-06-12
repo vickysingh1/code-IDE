@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>CØDE FUNK</title>
+  <title>Simple Sidebar - Start Bootstrap Template</title>
   <script src="https://pagecdn.io/lib/ace/1.4.11/ace.js" type="text/javascript" charset="utf-8"></script>
 
   <!-- Bootstrap core CSS -->
@@ -99,8 +99,9 @@
 
 </head>
 
-<body onload="startnew()">
-    <form id="cat_select">{% csrf_token %}
+<body>
+    <form id="cat_select">
+      
   <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
@@ -229,7 +230,7 @@ $.ajax({
        l2:x1,
        l3:$('#language').val(),
        l4:$('#takeinput').val(),
-       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+      //  csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
    },
    success: function(json){
        
@@ -263,42 +264,42 @@ function clearscreen(){
         url:'/showlang/',
         data:{
             l3:v1,
-            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            // csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
         },
         success: function(json){
-            editor.setValue("");
+            editor.setValue(json.lang);
             // editor.setValue(json.lang);
-            var datas=localStorage.getItem($("#language").val())
-            if(datas==null){
-              editor.setValue(json.lang);
-            }
-            else{
-              editor.setValue(datas);
-            }
-            if(json.prog!='C' && json.prog!='CPP' && json.prog!='Language'){
-            var k="ace/mode/"+(json.prog).toLowerCase();
-            editor.session.setMode(k);
-            }
-            else if(json.prog='C' || json.prog=='CPP' && json.prog!='Language'){ 
-                editor.session.setMode("ace/mode/c_cpp");
-            }
+            // var datas=localStorage.getItem($("#language").val())
+            // if(datas==null){
+            //   editor.setValue(json.lang);
+            // }
+            // else{
+            //   editor.setValue(datas);
+            // }
+            // if(json.prog!='C' && json.prog!='CPP' && json.prog!='Language'){
+            // var k="ace/mode/"+(json.prog).toLowerCase();
+            // editor.session.setMode(k);
+            // }
+            // else if(json.prog='C' || json.prog=='CPP' && json.prog!='Language'){ 
+            //     editor.session.setMode("ace/mode/c_cpp");
+            // }
             
             
         }
     });
 
 }
-function startnew(){
-  //console.log(localStorage)
-    editor.setValue(localStorage.getItem("code"))
-    $("#language").val(localStorage.getItem("language"));
-    var k=(localStorage.getItem("language")).toLowerCase();
-    if(k=='python' || k=="java"){
-        editor.session.setMode("ace/mode/"+k);
-    }
-    else{
-    editor.session.setMode("ace/mode/c_cpp");
-}}
+// function startnew(){
+//   //console.log(localStorage)
+//     editor.setValue(localStorage.getItem("code"))
+//     $("#language").val(localStorage.getItem("language"));
+//     var k=(localStorage.getItem("language")).toLowerCase();
+//     if(k=='python' || k=="java"){
+//         editor.session.setMode("ace/mode/"+k);
+//     }
+//     else{
+//     editor.session.setMode("ace/mode/c_cpp");
+// }}
 </script>
 
 </body>
