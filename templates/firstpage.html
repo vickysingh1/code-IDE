@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,12 +13,14 @@
 
   <!-- Bootstrap core CSS -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Droid+Sans+Mono" />
   <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
   <!-- Custom styles for this template -->
   <style>
+
+
        #editor { 
         position: relative;
         top: 0%;
@@ -33,10 +28,27 @@
         bottom: 6%;
         left: 0%;
         height: 750px;
-         
+        background-color: #131313;
+        font-family: Droid Sans Mono;
+        font-weight: normal;
     }
-    #show,#takeinput{
-      min-height:318px;
+    .vl {
+  border-left: 10px solid #1b1b1b;
+  height: 870px;
+  position: absolute;
+  left: 50%;
+  margin-left: 475px;
+  top: 0;
+}
+    #show,#takeinput1{
+      min-height:350px;
+      /* margin-bottom:-300px; */
+    }
+    #takeinput{
+      margin-top:-95px;
+  }
+    .ace_gutter-layer{
+      background-color: #131313;
     }
 
 
@@ -56,27 +68,36 @@ label:focus,
     outline:0px !important;
     -webkit-appearance:none;
     box-shadow: none !important;
+    /* overflow: scroll; */
 }
-@media only screen and (max-height: 786px) {
+@media only screen and (max-height:780px)  {
   #editor{
-    height:500px;
+    height:600px;
   }
   #show{
   min-height:200px;
 }
-#takeinput{
+#takeinput1{
   min-height:190px;
 }
+.vl{
+  height: 600px;
+  margin-left:360px;
 }
-@media only screen and (max-height: 796px) {
+}
+@media only screen and (max-height:795px) and (min-height: 850px) {
   #editor{
     height:600px;
   }
   #show{
   min-height:250px;
 }
-#takeinput{
+#takeinput1{
   min-height:240px;
+}
+.vl{
+  height: 700px;
+  margin-left:355px;
 }
 }
 @media only screen and (max-height: 600px) {
@@ -86,24 +107,34 @@ label:focus,
   #show{
   min-height:100px;
 }
-#takeinput{
+#takeinput1{
   min-height:100px;
 }
+#takeinput{
+      margin-top:95px;
+  }
+  .vl {
+    display: none;
+  }
 }
 /* @media only screen and (min-height: 900px) {
   #editor{
     height:1000px;
   }
-
 } */
 
 @media only screen and (min-height: 1123px) {
   #editor{
     height:1200px;
   }
-  #show,#takeinput{
+  #show,#takeinput1{
     min-height: 550px;
   }
+
+  .vl{
+  height: 700px;
+  margin-left:px;
+}
 
 }
 
@@ -111,14 +142,12 @@ label:focus,
 
 </head>
 
-<body style="background-color: #0c0c0c;">
+<body onload=clearscreen() style="background-color: #161616;">
   <form id="cat_select">{% csrf_token %}
     <div>
        <nav class="navbar navbar-light">
            <h5 style=" display: inline;font-weight:  bolder;font-size: 20px;color: #555454;">CODE FUNK</h5>
          </nav>
-         
-         
                <div class="row">
                    <div class="input-group mb-3 d-inline-block" style="margin-left:20px;margin-bottom: 20px;width: 8%;">
                        <select class="custom-select" style="border: none;font-weight:bold;color: #ffffffe1;background-color: #0c0c0c;"  id="language" name="language" onchange="clearscreen()">
@@ -134,12 +163,13 @@ label:focus,
              </button>
                    <div class="col-sm-9"><div id="editor">
                    </div></div>
+                   <div class="vl"></div>
                  <div class="col-sm-3">
               
-                   <h5 class="alert alert-md" style="color:#ffffffe1;margin-right:8px;background-color: #1b1b1b;">Input:</h5>
-                   <textarea class="form-control" id="takeinput" style="height:100px;color:#ffffff;margin-top:-20px;border:0px;background-color:#161616;width: 98%;font-weight: normal;font-size: normal;"></textarea>
-                   <h5 class="alert alert-md" style="margin-top:20px;margin-right:8px;color:#ffffffe1;background-color: #1b1b1b;">Output:</h5>
-                   <textarea class="form-control" disabled="true" id="show"  style="height:100px;margin-top:-20px;border:0px;color:#ffffff;background-color:#161616 ;width: 98%;font-weight: normal;font-size: normal;"></textarea>
+                   <h5 class="alert alert-md" id="takeinput" style="color:#ffffffe1;margin-right:8px;background-color: #1b1b1b;">Input</h5>
+                   <textarea class="form-control" id="takeinput1" style="height:100px;color:#ffffff;margin-top:-20px;border:0px;background-color:#161616;width: 94.5%;font-weight: normal;font-size: normal;"></textarea>
+                   <h5 class="alert alert-md" style="margin-top:20px;margin-right:8px;color:#ffffffe1;background-color: #1b1b1b;">Output</h5>
+                   <textarea class="form-control" disabled="true" id="show"  style="height:100px;margin-top:-20px;border:0px;color:#ffffff;background-color:#161616 ;width: 94.5%;font-weight: normal;font-size: normal;"></textarea>
                </div>
                </div>
            
@@ -153,17 +183,25 @@ label:focus,
     });
     var x1;
 var editor = ace.edit("editor");
-// editor.setTheme("ace/theme/monokai");
-editor.setTheme("ace/theme/dracula");
+ace.require("ace/ext/language_tools");
 
+// editor.setTheme("ace/theme/monokai");
+editor.setTheme("ace/theme/monokai");
+editor.setShowPrintMargin(false);
 document.getElementById('editor').style.fontSize='20px';
 document.getElementById('editor').style.font='22px';
 editor.setBehavioursEnabled(false);
 editor.setHighlightActiveLine(false);
+editor.focus();
 editor.resize();
 editor.setOptions({
-    enableBasicAutocompletion: true
-});
+    enableBasicAutocompletion: true,
+    enableSnippets: true,
+    enableLiveAutocomplete: true,
+  });
+// editor.setOptions({
+//     enableBasicAutocompletion: true
+// });
    
    $(document).on('submit','#cat_select',function(e){
    document.getElementById('cat_submit').innerHTML=' <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
@@ -176,15 +214,13 @@ e.preventDefault();
 // x1=document.querySelector("#message").value;
 var x1=editor.getValue();
 
-
-
 $.ajax({
    type:'POST',
    url:'/showDetails/',
    data:{
        l2:x1,
        l3:$('#language').val(),
-       l4:$('#takeinput').val(),
+       l4:$('#takeinput1').val(),
        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
    },
    success: function(json){
@@ -208,8 +244,10 @@ $.ajax({
 });
 });
 
-
 function clearscreen(){
+  document.getElementById("show").innerHTML="";
+  // document.getElementById("takeinput").innerText="";
+  
    var x=document.forms[0];
    var v= document.getElementById('language');
       var v1 = v.options[v.selectedIndex].innerHTML;
@@ -255,6 +293,8 @@ function startnew(){
     else{
     editor.session.setMode("ace/mode/c_cpp");
 }}
+
+
 </script>
 
 
